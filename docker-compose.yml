@@ -10,6 +10,4 @@ services:
       build:
          context: .
          dockerfile: Dockerfile
-      links:
-         - broker:broker
       env_file: ./docker.env
