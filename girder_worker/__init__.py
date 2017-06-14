@@ -1,7 +1,7 @@
 import abc
 import os
 from . import log_utils
-from ConfigParser import SafeConfigParser
+from six.moves import configparser
 
 __version__ = '0.3.1'
 __license__ = 'Apache 2.0'
@@ -9,7 +9,7 @@ __license__ = 'Apache 2.0'
 PACKAGE_DIR = os.path.dirname(os.path.abspath(__file__))
 # Read the configuration files
 _cfgs = ('worker.dist.cfg', 'worker.local.cfg')
-config = SafeConfigParser()
+config = configparser.SafeConfigParser()
 config.read([os.path.join(PACKAGE_DIR, f) for f in _cfgs])
 
 # Create and configure our logger

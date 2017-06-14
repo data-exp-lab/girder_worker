@@ -116,7 +116,7 @@ def converter_path(source, target):
     # the time.
     paths = all_shortest_paths(conv_graph, source, target)
     path = sorted(paths)[0]
-    path = zip(path[:-1], path[1:])
+    path = list(zip(path[:-1], path[1:]))
 
     return [conv_graph.edge[u][v] for (u, v) in path]
 
@@ -260,16 +260,16 @@ def print_conversion_graph():
     output.
     """
 
-    print 'digraph g {'
+    print('digraph g {')
 
     for node in conv_graph.nodes():
         paths = single_source_shortest_path(conv_graph, node)
-        reachable_conversions = [p for p in paths.keys() if p != node]
+        reachable_conversions = [p for p in list(paths.keys()) if p != node]
 
         for dest in reachable_conversions:
-            print '"%s:%s" -> "%s:%s"' % (node[0], node[1], dest[0], dest[1])
+            print('"%s:%s" -> "%s:%s"' % (node[0], node[1], dest[0], dest[1]))
 
-    print '}'
+    print('}')
 
 
 def print_conversion_table():
@@ -278,14 +278,14 @@ def print_conversion_table():
     and ``'to'`` columns to standard output.
     """
 
-    print 'from,to'
+    print('from,to')
 
     for node in conv_graph.nodes():
         paths = single_source_shortest_path(conv_graph, node)
-        reachable_conversions = [p for p in paths.keys() if p != node]
+        reachable_conversions = [p for p in list(paths.keys()) if p != node]
 
         for dest in reachable_conversions:
-            print '%s:%s,%s:%s' % (node[0], node[1], dest[0], dest[1])
+            print('%s:%s,%s:%s' % (node[0], node[1], dest[0], dest[1]))
 
 
 def import_default_converters():

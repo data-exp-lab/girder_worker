@@ -1,6 +1,6 @@
 import pkg_resources as pr
 from . import config
-from ConfigParser import NoSectionError, NoOptionError
+from six.moves import configparser
 from .app import app
 
 
@@ -37,7 +37,7 @@ def main():
             try:
                 include_core_tasks = config.getboolean(
                     'girder_worker', 'core_tasks')
-            except (NoSectionError, NoOptionError):
+            except (configparser.NoSectionError, configparser.NoOptionError):
                 pass
 
             if include_core_tasks:

@@ -1,10 +1,13 @@
-import httplib
+try:
+    import httplib
+except ImportError:
+    import http.client as httplib
 import os
 import re
 import requests
 import six
 import ssl
-import urlparse
+from six.moves.urllib.parse import urlparse
 
 from girder_worker.core.utils import StreamFetchAdapter, StreamPushAdapter
 
@@ -48,7 +51,7 @@ class HttpStreamPushAdapter(StreamPushAdapter):
         super(HttpStreamPushAdapter, self).__init__(output_spec)
         self._closed = False
 
-        parts = urlparse.urlparse(output_spec['url'])
+        parts = urlparse(output_spec['url'])
         if parts.scheme == 'https':
             ssl_context = ssl.create_default_context()
             conn = httplib.HTTPSConnection(parts.netloc, context=ssl_context)
@@ -145,7 +148,7 @@ def fetch(spec, **kwargs):
     try:
         request.raise_for_status()
     except Exception:
-        print 'HTTP fetch failed (%s). Response: %s' % (url, request.text)
+        print('HTTP fetch failed (%s). Response: %s' % (url, request.text))
         raise
 
     if target == 'filepath':
@@ -199,5 +202,5 @@ def push(data, spec, **kwargs):
     try:
         request.raise_for_status()
     except Exception:
-        print 'HTTP push failed (%s). Response: %s' % (url, request.text)
+        print('HTTP push failed (%s). Response: %s' % (url, request.text))
         raise
